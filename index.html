@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>NEON RUNNER</title>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "/node_modules/three/build/three.module.js",
+      "three/examples/jsm/loaders/GLTFLoader.js": "/node_modules/three/examples/jsm/loaders/GLTFLoader.js"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="/src/styles/hud.css" />
+</head>
+<body>
+  <div id="game-root">
+    <canvas id="game-canvas"></canvas>
+
+    <div id="hud" class="hud is-hidden" aria-live="polite">
+      <div class="hud-metric">Score: <span id="score-value">0</span></div>
+      <div class="hud-metric">Coins: <span id="coins-value">0</span></div>
+    </div>
+
+    <section id="menu-screen" class="screen">
+      <div class="glass-panel">
+        <h1 class="neon-title">NEON RUNNER</h1>
+        <p class="neon-subtitle">Infinite cyberpunk sprint</p>
+        <button id="start-btn" class="glass-button">START GAME</button>
+        <button id="leaderboard-btn" class="glass-button">LEADERBOARD</button>
+      </div>
+    </section>
+
+    <section id="gameover-screen" class="screen is-hidden">
+      <div class="modal-card">
+        <h2 class="neon-title neon-title--small">GAME OVER</h2>
+
+        <div class="stats-row">
+          <div class="stat-box"><span class="stat-label">Score</span><span id="final-score">0</span></div>
+          <div class="stat-box"><span class="stat-label">Coins</span><span id="final-coins">0</span></div>
+        </div>
+
+        <div class="sync-row">
+          <div id="sync-spinner" class="spinner"></div>
+          <span id="sync-status">API Syncing...</span>
+        </div>
+
+        <div class="system-architecture hidden" aria-hidden="true">
+          [Client (Game Canvas)] --(HTTPS Request: /api/submitScore)--> [Vercel Serverless Function (Node.js)] --(Validated Data)--> [Persistent Database]
+        </div>
+
+        <table class="leaderboard-table" id="leaderboard-table">
+          <thead>
+            <tr><th>Rank</th><th>Runner</th><th>Score</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="/src/components/GameLoop.js"></script>
+</body>
+</html>
